@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.umbrella.mytranslator.R
 import com.umbrella.mytranslator.data.network.RetrofitInstance
 import com.umbrella.mytranslator.data.repository.WordsRepositoryImpl
 import com.umbrella.mytranslator.databinding.FragmentWordsBinding
@@ -41,6 +42,16 @@ class WordsFragment : Fragment(), WordsScreen {
         presenter.attachScreen(this)
 
         binding.recyclerView.adapter = adapter
+
+        adapter.onShopItemClickListener = {
+            parentFragmentManager.beginTransaction()
+                .replace(
+                    R.id.main_container,
+                    WordFullMeaningFragment.newInstance(it.meanings[0].id.toString())
+                )
+                .addToBackStack(null)
+                .commit()
+        }
 
         val word = arguments?.getString(KEY_SEARCHING_WORD, "") ?: ""
         presenter.getWordsList(word)

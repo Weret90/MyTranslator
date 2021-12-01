@@ -2,7 +2,7 @@ package com.umbrella.mytranslator.data.repository
 
 import com.umbrella.mytranslator.data.mapper.toDomainModel
 import com.umbrella.mytranslator.data.network.RetrofitService
-import com.umbrella.mytranslator.domain.entity.Meaning
+import com.umbrella.mytranslator.domain.entity.DetailMeaning
 import com.umbrella.mytranslator.domain.entity.Word
 import com.umbrella.mytranslator.domain.repository.WordsRepository
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -20,7 +20,10 @@ class WordsRepositoryImpl(
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    override fun getDetailMeaningByMeaningId(meaningId: Long): Single<Meaning> {
-        TODO()
+    override fun getDetailMeaningByMeaningId(meaningId: String): Single<List<DetailMeaning>> {
+        return api.getDetailMeaningById(meaningId)
+            .subscribeOn(Schedulers.io())
+            .map { it.toDomainModel() }
+            .observeOn(AndroidSchedulers.mainThread())
     }
 }

@@ -10,6 +10,8 @@ class WordsAdapter : RecyclerView.Adapter<WordsViewHolder>() {
 
     private var words = listOf<Word>()
 
+    var onShopItemClickListener: ((Word) -> Unit)? = null
+
     fun setData(words: List<Word>) {
         this.words = words
         notifyDataSetChanged()
@@ -26,6 +28,9 @@ class WordsAdapter : RecyclerView.Adapter<WordsViewHolder>() {
 
     override fun onBindViewHolder(holder: WordsViewHolder, position: Int) {
         holder.bind(words[position])
+        holder.itemView.setOnClickListener {
+            onShopItemClickListener?.invoke(words[position])
+        }
     }
 
     override fun getItemCount(): Int {

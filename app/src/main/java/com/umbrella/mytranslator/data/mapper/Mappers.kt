@@ -1,11 +1,7 @@
 package com.umbrella.mytranslator.data.mapper
 
-import com.umbrella.mytranslator.data.model.MeaningDataModel
-import com.umbrella.mytranslator.data.model.TranslationDataModel
-import com.umbrella.mytranslator.data.model.WordDataModel
-import com.umbrella.mytranslator.domain.entity.Meaning
-import com.umbrella.mytranslator.domain.entity.Translation
-import com.umbrella.mytranslator.domain.entity.Word
+import com.umbrella.mytranslator.data.model.*
+import com.umbrella.mytranslator.domain.entity.*
 
 fun WordDataModel.toDomainModel() = Word(
     this.meanings.toDomainModel(),
@@ -15,6 +11,28 @@ fun WordDataModel.toDomainModel() = Word(
 fun List<WordDataModel>.toDomainModel() = this.map {
     it.toDomainModel()
 }
+
+fun DetailMeaningDataModel.toDomainModel() = DetailMeaning(
+    this.definition?.toDomainModel(),
+    this.mnemonics,
+    this.text,
+    this.transcription,
+    this.translation?.toDomainModel(),
+    this.images?.map { it.toDomainModel() }
+)
+
+@JvmName("toDomainModelDetailMeaningDataModel")
+fun List<DetailMeaningDataModel>.toDomainModel() = this.map {
+    it.toDomainModel()
+}
+
+private fun DefinitionDataModel.toDomainModel() = Definition(
+    this.text
+)
+
+private fun ImageDataModel.toDomainModel() = Image(
+    this.url
+)
 
 private fun MeaningDataModel.toDomainModel() = Meaning(
     this.id,
