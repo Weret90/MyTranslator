@@ -5,8 +5,6 @@ import com.umbrella.mytranslator.domain.entity.Word
 import io.reactivex.rxjava3.core.Single
 
 interface WordsRepository {
-
     fun getWordsWithMeaningsByWord(word: String): Single<List<Word>>
-
     fun getDetailMeaningByMeaningId(meaningId: String): Single<List<DetailMeaning>>
 }

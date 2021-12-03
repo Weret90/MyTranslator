@@ -6,7 +6,6 @@ import com.umbrella.mytranslator.presentation.fragments.WordsScreen
 class WordsFragmentPresenter(
     private val getWordsListUseCase: GetWordsListUseCase,
 ) {
-
     private var screen: WordsScreen? = null
 
     fun attachScreen(screen: WordsScreen) {

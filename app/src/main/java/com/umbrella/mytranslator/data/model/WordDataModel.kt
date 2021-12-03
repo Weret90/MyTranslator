@@ -3,12 +3,18 @@ package com.umbrella.mytranslator.data.model
 import com.google.gson.annotations.SerializedName
 
 data class WordDataModel(
-    @SerializedName("id")
+    @SerializedName(KEY_ID)
     val id: Int,
-    @SerializedName("meanings")
+    @SerializedName(KEY_MEANINGS)
     val meanings: List<MeaningDataModel>,
-    @SerializedName("text")
-    val text: String
-)
+    @SerializedName(KEY_TEXT)
+    val text: String,
+) {
+    companion object {
+        private const val KEY_ID = "id"
+        private const val KEY_MEANINGS = "meanings"
+        private const val KEY_TEXT = "text"
+    }
+}
 
 

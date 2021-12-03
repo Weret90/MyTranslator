@@ -5,7 +5,6 @@ import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitInstance {
-
     private const val BASE_URL = "https://dictionary.skyeng.ru/api/public/v1/"
 
     private val retrofit: Retrofit = Retrofit.Builder()

@@ -11,7 +11,6 @@ import com.umbrella.mytranslator.databinding.FragmentSearchDialogBinding
 import com.umbrella.mytranslator.presentation.presenter.SearchDialogPresenter
 
 class SearchDialogFragment : Fragment(), SearchDialogScreen {
-
     private var _binding: FragmentSearchDialogBinding? = null
     private val binding get() = _binding!!
     private val presenter: SearchDialogPresenter by lazy {

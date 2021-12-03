@@ -6,7 +6,6 @@ import com.umbrella.mytranslator.presentation.fragments.WordFullMeaningScreen
 class WordFullMeaningPresenter(
     private val getDetailMeaningUseCase: GetDetailMeaningUseCase,
 ) {
-
     private var screen: WordFullMeaningScreen? = null
 
     fun attachScreen(screen: WordFullMeaningScreen) {

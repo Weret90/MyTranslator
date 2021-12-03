@@ -4,8 +4,8 @@ import com.umbrella.mytranslator.data.model.*
 import com.umbrella.mytranslator.domain.entity.*
 
 fun WordDataModel.toDomainModel() = Word(
-    this.meanings.toDomainModel(),
-    this.text
+    meanings.toDomainModel(),
+    text
 )
 
 fun List<WordDataModel>.toDomainModel() = this.map {
@@ -13,12 +13,12 @@ fun List<WordDataModel>.toDomainModel() = this.map {
 }
 
 fun DetailMeaningDataModel.toDomainModel() = DetailMeaning(
-    this.definition?.toDomainModel(),
-    this.mnemonics,
-    this.text,
-    this.transcription,
-    this.translation?.toDomainModel(),
-    this.images?.map { it.toDomainModel() }
+    definition?.toDomainModel(),
+    mnemonics,
+    text,
+    transcription,
+    translation?.toDomainModel(),
+    images?.map { it.toDomainModel() }
 )
 
 @JvmName("toDomainModelDetailMeaningDataModel")
@@ -27,23 +27,23 @@ fun List<DetailMeaningDataModel>.toDomainModel() = this.map {
 }
 
 private fun DefinitionDataModel.toDomainModel() = Definition(
-    this.text
+    text
 )
 
 private fun ImageDataModel.toDomainModel() = Image(
-    this.url
+    url
 )
 
 private fun MeaningDataModel.toDomainModel() = Meaning(
-    this.id,
-    this.imageUrl,
-    this.previewUrl,
-    this.transcription,
-    this.translation?.toDomainModel()
+    id,
+    imageUrl,
+    previewUrl,
+    transcription,
+    translation?.toDomainModel()
 )
 
 private fun TranslationDataModel.toDomainModel() = Translation(
-    this.text
+    text
 )
 
 @JvmName("toDomainModelMeaningDataModel")

@@ -3,7 +3,6 @@ package com.umbrella.mytranslator.presentation.presenter
 import com.umbrella.mytranslator.presentation.fragments.SearchDialogScreen
 
 class SearchDialogPresenter {
-
     private var screen: SearchDialogScreen? = null
 
     fun attachScreen(screen: SearchDialogScreen) {

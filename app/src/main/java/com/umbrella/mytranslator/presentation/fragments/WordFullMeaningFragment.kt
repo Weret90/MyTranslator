@@ -16,10 +16,8 @@ import com.umbrella.mytranslator.domain.usecase.GetDetailMeaningUseCase
 import com.umbrella.mytranslator.presentation.presenter.WordFullMeaningPresenter
 
 class WordFullMeaningFragment : Fragment(), WordFullMeaningScreen {
-
     private var _binding: FragmentWordFullMeaningBinding? = null
     private val binding get() = _binding!!
-
     private val presenter: WordFullMeaningPresenter by lazy {
         WordFullMeaningPresenter(GetDetailMeaningUseCase(WordsRepositoryImpl(RetrofitInstance.api)))
     }
@@ -89,7 +87,6 @@ class WordFullMeaningFragment : Fragment(), WordFullMeaningScreen {
     }
 
     companion object {
-
         private const val KEY_MEANING_ID = "meaningId"
 
         fun newInstance(meaningId: String): WordFullMeaningFragment {

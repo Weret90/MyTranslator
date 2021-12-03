@@ -7,9 +7,7 @@ import com.umbrella.mytranslator.databinding.ItemWordBinding
 import com.umbrella.mytranslator.domain.entity.Word
 
 class WordsAdapter : RecyclerView.Adapter<WordsViewHolder>() {
-
     private var words = listOf<Word>()
-
     var onShopItemClickListener: ((Word) -> Unit)? = null
 
     fun setData(words: List<Word>) {

@@ -16,14 +16,11 @@ import com.umbrella.mytranslator.presentation.adapters.WordsAdapter
 import com.umbrella.mytranslator.presentation.presenter.WordsFragmentPresenter
 
 class WordsFragment : Fragment(), WordsScreen {
-
     private var _binding: FragmentWordsBinding? = null
     private val binding get() = _binding!!
-
     private val presenter: WordsFragmentPresenter by lazy {
         WordsFragmentPresenter(GetWordsListUseCase(WordsRepositoryImpl(RetrofitInstance.api)))
     }
-
     private val adapter: WordsAdapter by lazy {
         WordsAdapter()
     }
@@ -89,7 +86,6 @@ class WordsFragment : Fragment(), WordsScreen {
     }
 
     companion object {
-
         private const val KEY_SEARCHING_WORD = "word"
 
         fun newInstance(word: String): WordsFragment {
