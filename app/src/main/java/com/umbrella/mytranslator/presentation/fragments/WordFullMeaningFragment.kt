@@ -9,22 +9,26 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.squareup.picasso.Picasso
 import com.umbrella.mytranslator.R
-import com.umbrella.mytranslator.data.network.RetrofitInstance
-import com.umbrella.mytranslator.data.repository.WordsRepositoryImpl
 import com.umbrella.mytranslator.databinding.FragmentWordFullMeaningBinding
 import com.umbrella.mytranslator.domain.entity.DetailMeaning
-import com.umbrella.mytranslator.domain.usecase.GetDetailMeaningUseCase
+import com.umbrella.mytranslator.presentation.App
 import com.umbrella.mytranslator.presentation.viewmodels.WordFullMeaningViewModel
 import com.umbrella.mytranslator.presentation.viewmodels.WordFullMeaningViewModelFactory
+import javax.inject.Inject
 
 class WordFullMeaningFragment : Fragment() {
     private var _binding: FragmentWordFullMeaningBinding? = null
     private val binding get() = _binding!!
-    private val factory: WordFullMeaningViewModelFactory by lazy {
-        WordFullMeaningViewModelFactory(GetDetailMeaningUseCase(WordsRepositoryImpl(RetrofitInstance.api)))
-    }
+
+    @Inject
+    lateinit var factory: WordFullMeaningViewModelFactory
     private val viewModel: WordFullMeaningViewModel by lazy {
         ViewModelProvider(this, factory)[WordFullMeaningViewModel::class.java]
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        (context?.applicationContext as App).appComponent.inject(this)
+        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(

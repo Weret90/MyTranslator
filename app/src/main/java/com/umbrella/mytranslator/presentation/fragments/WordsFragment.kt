@@ -8,13 +8,12 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.umbrella.mytranslator.R
-import com.umbrella.mytranslator.data.network.RetrofitInstance
-import com.umbrella.mytranslator.data.repository.WordsRepositoryImpl
 import com.umbrella.mytranslator.databinding.FragmentWordsBinding
-import com.umbrella.mytranslator.domain.usecase.GetWordsListUseCase
+import com.umbrella.mytranslator.presentation.App
 import com.umbrella.mytranslator.presentation.adapters.WordsAdapter
 import com.umbrella.mytranslator.presentation.viewmodels.WordsFragmentViewModel
 import com.umbrella.mytranslator.presentation.viewmodels.WordsFragmentViewModelFactory
+import javax.inject.Inject
 
 class WordsFragment : Fragment() {
     private var _binding: FragmentWordsBinding? = null
@@ -22,11 +21,16 @@ class WordsFragment : Fragment() {
     private val adapter: WordsAdapter by lazy {
         WordsAdapter()
     }
-    private val factory: WordsFragmentViewModelFactory by lazy {
-        WordsFragmentViewModelFactory(GetWordsListUseCase(WordsRepositoryImpl(RetrofitInstance.api)))
-    }
+
+    @Inject
+    lateinit var factory: WordsFragmentViewModelFactory
     private val viewModel: WordsFragmentViewModel by lazy {
         ViewModelProvider(this, factory)[WordsFragmentViewModel::class.java]
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        (context?.applicationContext as App).appComponent.inject(this)
+        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(
