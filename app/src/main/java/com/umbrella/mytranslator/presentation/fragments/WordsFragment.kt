@@ -6,23 +6,27 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.umbrella.mytranslator.R
 import com.umbrella.mytranslator.data.network.RetrofitInstance
 import com.umbrella.mytranslator.data.repository.WordsRepositoryImpl
 import com.umbrella.mytranslator.databinding.FragmentWordsBinding
-import com.umbrella.mytranslator.domain.entity.Word
 import com.umbrella.mytranslator.domain.usecase.GetWordsListUseCase
 import com.umbrella.mytranslator.presentation.adapters.WordsAdapter
-import com.umbrella.mytranslator.presentation.presenter.WordsFragmentPresenter
+import com.umbrella.mytranslator.presentation.viewmodels.WordsFragmentViewModel
+import com.umbrella.mytranslator.presentation.viewmodels.WordsFragmentViewModelFactory
 
-class WordsFragment : Fragment(), WordsScreen {
+class WordsFragment : Fragment() {
     private var _binding: FragmentWordsBinding? = null
     private val binding get() = _binding!!
-    private val presenter: WordsFragmentPresenter by lazy {
-        WordsFragmentPresenter(GetWordsListUseCase(WordsRepositoryImpl(RetrofitInstance.api)))
-    }
     private val adapter: WordsAdapter by lazy {
         WordsAdapter()
+    }
+    private val factory: WordsFragmentViewModelFactory by lazy {
+        WordsFragmentViewModelFactory(GetWordsListUseCase(WordsRepositoryImpl(RetrofitInstance.api)))
+    }
+    private val viewModel: WordsFragmentViewModel by lazy {
+        ViewModelProvider(this, factory)[WordsFragmentViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -36,8 +40,6 @@ class WordsFragment : Fragment(), WordsScreen {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        presenter.attachScreen(this)
-
         binding.recyclerView.adapter = adapter
 
         adapter.onShopItemClickListener = {
@@ -50,39 +52,35 @@ class WordsFragment : Fragment(), WordsScreen {
                 .commit()
         }
 
+        initViewModelObservers()
+
         val word = arguments?.getString(KEY_SEARCHING_WORD, "") ?: ""
-        presenter.getWordsList(word)
+        viewModel.getWordsList(word)
     }
 
-    override fun showWordsList(words: List<Word>) {
-        adapter.setData(words)
+    private fun initViewModelObservers() {
+        viewModel.wordsList.observe(viewLifecycleOwner) {
+            adapter.setData(it)
+        }
+
+        viewModel.loading.observe(viewLifecycleOwner) { shouldShowLoadingBar ->
+            if (shouldShowLoadingBar) {
+                binding.loadingBar.visibility = View.VISIBLE
+            } else {
+                binding.loadingBar.visibility = View.GONE
+            }
+        }
+
+        viewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
+            errorMessage?.let {
+                showToast(errorMessage)
+                viewModel.clearErrorLiveData()
+            }
+        }
     }
 
-    override fun showErrorMessage(errorMessage: String?) {
-        showToast(errorMessage)
-    }
-
-    override fun showLoadingBar() {
-        binding.loadingBar.visibility = View.VISIBLE
-    }
-
-    override fun hideLoadingBar() {
-        binding.loadingBar.visibility = View.GONE
-    }
-
-
-    private fun showToast(text: String?) {
+    private fun showToast(text: String) {
         Toast.makeText(context, text, Toast.LENGTH_LONG).show()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        presenter.attachScreen(this)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        presenter.detachScreen(this)
     }
 
     companion object {
