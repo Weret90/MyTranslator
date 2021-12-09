@@ -6,20 +6,29 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.squareup.picasso.Picasso
 import com.umbrella.mytranslator.R
-import com.umbrella.mytranslator.data.network.RetrofitInstance
-import com.umbrella.mytranslator.data.repository.WordsRepositoryImpl
 import com.umbrella.mytranslator.databinding.FragmentWordFullMeaningBinding
 import com.umbrella.mytranslator.domain.entity.DetailMeaning
-import com.umbrella.mytranslator.domain.usecase.GetDetailMeaningUseCase
-import com.umbrella.mytranslator.presentation.presenter.WordFullMeaningPresenter
+import com.umbrella.mytranslator.presentation.App
+import com.umbrella.mytranslator.presentation.viewmodels.WordFullMeaningViewModel
+import com.umbrella.mytranslator.presentation.viewmodels.WordFullMeaningViewModelFactory
+import javax.inject.Inject
 
-class WordFullMeaningFragment : Fragment(), WordFullMeaningScreen {
+class WordFullMeaningFragment : Fragment() {
     private var _binding: FragmentWordFullMeaningBinding? = null
     private val binding get() = _binding!!
-    private val presenter: WordFullMeaningPresenter by lazy {
-        WordFullMeaningPresenter(GetDetailMeaningUseCase(WordsRepositoryImpl(RetrofitInstance.api)))
+
+    @Inject
+    lateinit var factory: WordFullMeaningViewModelFactory
+    private val viewModel: WordFullMeaningViewModel by lazy {
+        ViewModelProvider(this, factory)[WordFullMeaningViewModel::class.java]
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        App.appComponent.inject(this)
+        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(
@@ -32,54 +41,52 @@ class WordFullMeaningFragment : Fragment(), WordFullMeaningScreen {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        presenter.attachScreen(this)
+
+        initViewModelObservers()
 
         val meaningId = arguments?.getString(KEY_MEANING_ID, "") ?: ""
-
-        presenter.getFullMeaning(meaningId)
+        viewModel.getFullMeaning(meaningId)
     }
 
-    override fun onStart() {
-        super.onStart()
-        presenter.attachScreen(this)
+    private fun initViewModelObservers() {
+        viewModel.detailMeaning.observe(viewLifecycleOwner) {
+            renderDetailMeaning(it)
+        }
+
+        viewModel.loading.observe(viewLifecycleOwner) { shouldShowLoadingBar ->
+            if (shouldShowLoadingBar) {
+                binding.loadingBar.visibility = View.VISIBLE
+            } else {
+                binding.loadingBar.visibility = View.GONE
+            }
+        }
+
+        viewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
+            errorMessage?.let {
+                showToast(errorMessage)
+                viewModel.clearErrorLiveData()
+            }
+        }
     }
 
-    override fun onStop() {
-        super.onStop()
-        presenter.detachScreen(this)
-    }
-
-    override fun showFullMeaning(fullMeaning: DetailMeaning) {
+    private fun renderDetailMeaning(detailMeaning: DetailMeaning) {
         with(binding) {
-
-            mainWord.text = fullMeaning.text
+            mainWord.text = detailMeaning.text
 
             Picasso.get()
-                .load("https:" + fullMeaning.images?.get(0)?.url)
+                .load("https:" + detailMeaning.images?.get(0)?.url)
                 .placeholder(R.drawable.placeholder)
                 .into(imageView)
 
             translation.text = String.format(
                 getString(R.string.word_description),
-                fullMeaning.translation?.text,
-                fullMeaning.transcription
+                detailMeaning.translation?.text,
+                detailMeaning.transcription
             )
 
-            definition.text = fullMeaning.definition?.text
-            mnemonics.text = fullMeaning.mnemonics
+            definition.text = detailMeaning.definition?.text
+            mnemonics.text = detailMeaning.mnemonics
         }
-    }
-
-    override fun showErrorMessage(errorMessage: String?) {
-        showToast(errorMessage)
-    }
-
-    override fun showLoadingBar() {
-        binding.loadingBar.visibility = View.VISIBLE
-    }
-
-    override fun hideLoadingBar() {
-        binding.loadingBar.visibility = View.GONE
     }
 
     private fun showToast(text: String?) {

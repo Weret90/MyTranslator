@@ -6,20 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.umbrella.mytranslator.R
 import com.umbrella.mytranslator.databinding.FragmentSearchDialogBinding
-import com.umbrella.mytranslator.presentation.presenter.SearchDialogPresenter
+import com.umbrella.mytranslator.presentation.viewmodels.SearchDialogViewModel
 
-class SearchDialogFragment : Fragment(), SearchDialogScreen {
+class SearchDialogFragment : Fragment() {
     private var _binding: FragmentSearchDialogBinding? = null
     private val binding get() = _binding!!
-    private val presenter: SearchDialogPresenter by lazy {
-        SearchDialogPresenter()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        presenter.attachScreen(this)
+    private val viewModel: SearchDialogViewModel by lazy {
+        ViewModelProvider(this)[SearchDialogViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -32,29 +28,32 @@ class SearchDialogFragment : Fragment(), SearchDialogScreen {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        initViewModelObservers()
+
         binding.buttonSearch.setOnClickListener {
             val word = binding.fieldForWord.text.toString()
-            presenter.parseWord(word)
+            viewModel.parseWord(word)
         }
     }
 
-    override fun goToScreenWithWords(word: String) {
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.main_container, WordsFragment.newInstance(word))
-            .addToBackStack(null)
-            .commit()
-    }
+    private fun initViewModelObservers() {
+        viewModel.navigateToWordsFragment.observe(viewLifecycleOwner) { word ->
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.main_container, WordsFragment.newInstance(word))
+                .addToBackStack(null)
+                .commit()
+        }
 
-    override fun showErrorMessage(errorMessage: String) {
-        showToast(errorMessage)
+        viewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
+            errorMessage?.let {
+                showToast(errorMessage)
+                viewModel.clearErrorLiveData()
+            }
+        }
     }
 
     private fun showToast(text: String) {
         Toast.makeText(context, text, Toast.LENGTH_LONG).show()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        presenter.detachScreen(this)
     }
 }
