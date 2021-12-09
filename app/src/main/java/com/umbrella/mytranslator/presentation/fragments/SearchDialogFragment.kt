@@ -39,10 +39,13 @@ class SearchDialogFragment : Fragment() {
 
     private fun initViewModelObservers() {
         viewModel.navigateToWordsFragment.observe(viewLifecycleOwner) { word ->
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.main_container, WordsFragment.newInstance(word))
-                .addToBackStack(null)
-                .commit()
+            word?.let {
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.main_container, WordsFragment.newInstance(word))
+                    .addToBackStack(null)
+                    .commit()
+                viewModel.clearNavigateToWordsFragmentLiveData()
+            }
         }
 
         viewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->

@@ -6,14 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.umbrella.mytranslator.R
 import com.umbrella.mytranslator.databinding.FragmentWordsBinding
-import com.umbrella.mytranslator.presentation.App
 import com.umbrella.mytranslator.presentation.adapters.WordsAdapter
 import com.umbrella.mytranslator.presentation.viewmodels.WordsFragmentViewModel
-import com.umbrella.mytranslator.presentation.viewmodels.WordsFragmentViewModelFactory
-import javax.inject.Inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class WordsFragment : Fragment() {
     private var _binding: FragmentWordsBinding? = null
@@ -22,16 +19,7 @@ class WordsFragment : Fragment() {
         WordsAdapter()
     }
 
-    @Inject
-    lateinit var factory: WordsFragmentViewModelFactory
-    private val viewModel: WordsFragmentViewModel by lazy {
-        ViewModelProvider(this, factory)[WordsFragmentViewModel::class.java]
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        App.appComponent.inject(this)
-        super.onCreate(savedInstanceState)
-    }
+    private val viewModel by viewModel<WordsFragmentViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
