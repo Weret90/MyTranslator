@@ -24,6 +24,10 @@ class SearchDialogViewModel : ViewModel() {
         _errorMessage.value = null
     }
 
+    fun clearNavigateToWordsFragmentLiveData() {
+        _navigateToWordsFragment.value = null
+    }
+
     companion object {
         private const val SEARCHING_WORD_EMPTY_VALUE = "Введите хоть что-то"
     }

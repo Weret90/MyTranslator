@@ -6,30 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.squareup.picasso.Picasso
 import com.umbrella.mytranslator.R
 import com.umbrella.mytranslator.databinding.FragmentWordFullMeaningBinding
 import com.umbrella.mytranslator.domain.entity.DetailMeaning
-import com.umbrella.mytranslator.presentation.App
 import com.umbrella.mytranslator.presentation.viewmodels.WordFullMeaningViewModel
-import com.umbrella.mytranslator.presentation.viewmodels.WordFullMeaningViewModelFactory
-import javax.inject.Inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class WordFullMeaningFragment : Fragment() {
     private var _binding: FragmentWordFullMeaningBinding? = null
     private val binding get() = _binding!!
 
-    @Inject
-    lateinit var factory: WordFullMeaningViewModelFactory
-    private val viewModel: WordFullMeaningViewModel by lazy {
-        ViewModelProvider(this, factory)[WordFullMeaningViewModel::class.java]
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        App.appComponent.inject(this)
-        super.onCreate(savedInstanceState)
-    }
+    private val viewModel by viewModel<WordFullMeaningViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
