@@ -21,5 +21,3 @@
         android:visibility="gone" />
 
 </FrameLayout>
-
-<!--    android:indeterminateTint="@android:color/holo_red_dark"-->

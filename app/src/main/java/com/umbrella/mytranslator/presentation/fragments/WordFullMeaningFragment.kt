@@ -27,7 +27,7 @@ class WordFullMeaningFragment : Fragment() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        (context?.applicationContext as App).appComponent.inject(this)
+        App.appComponent.inject(this)
         super.onCreate(savedInstanceState)
     }
 
