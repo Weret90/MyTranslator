@@ -1,7 +1,7 @@
 package com.umbrella.mytranslator.data.network
 
-import com.umbrella.mytranslator.data.model.DetailMeaningDataModel
-import com.umbrella.mytranslator.data.model.WordDataModel
+import com.umbrella.mytranslator.data.model.network.DetailMeaningDataModel
+import com.umbrella.mytranslator.data.model.network.WordDataModel
 import retrofit2.http.GET
 import retrofit2.http.Query
 

@@ -1,6 +1,7 @@
 package com.umbrella.mytranslator.data.mapper
 
-import com.umbrella.mytranslator.data.model.*
+import com.umbrella.mytranslator.data.model.database.SimpleWordDatabaseModel
+import com.umbrella.mytranslator.data.model.network.*
 import com.umbrella.mytranslator.domain.entity.*
 
 fun WordDataModel.toDomainModel() = Word(
@@ -19,6 +20,10 @@ fun DetailMeaningDataModel.toDomainModel() = DetailMeaning(
     transcription,
     translation?.toDomainModel(),
     images?.map { it.toDomainModel() }
+)
+
+fun SimpleWordDatabaseModel.toDomainModel() = SimpleWord(
+    word
 )
 
 @JvmName("toDomainModelDetailMeaningDataModel")

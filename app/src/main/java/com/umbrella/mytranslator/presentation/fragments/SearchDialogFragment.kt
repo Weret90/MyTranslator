@@ -1,9 +1,7 @@
 package com.umbrella.mytranslator.presentation.fragments
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -16,6 +14,11 @@ class SearchDialogFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: SearchDialogViewModel by lazy {
         ViewModelProvider(this)[SearchDialogViewModel::class.java]
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -35,6 +38,19 @@ class SearchDialogFragment : Fragment() {
             val word = binding.fieldForWord.text.toString()
             viewModel.parseWord(word)
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.history_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.main_container, HistoryFragment.newInstance())
+            .addToBackStack(null)
+            .commit()
+        return super.onOptionsItemSelected(item)
     }
 
     private fun initViewModelObservers() {
@@ -58,5 +74,10 @@ class SearchDialogFragment : Fragment() {
 
     private fun showToast(text: String) {
         Toast.makeText(context, text, Toast.LENGTH_LONG).show()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
