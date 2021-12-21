@@ -1,4 +1,4 @@
-package com.umbrella.mytranslator.data.model
+package com.umbrella.mytranslator.data.model.network
 
 import com.google.gson.annotations.SerializedName
 

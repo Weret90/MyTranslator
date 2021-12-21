@@ -6,6 +6,6 @@ import org.koin.dsl.module
 
 val repositoryModule = module {
     single<WordsRepository> {
-        WordsRepositoryImpl(api = get())
+        WordsRepositoryImpl(api = get(), dao = get())
     }
 }

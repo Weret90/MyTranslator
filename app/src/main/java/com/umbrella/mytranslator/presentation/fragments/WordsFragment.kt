@@ -75,6 +75,11 @@ class WordsFragment : Fragment() {
         Toast.makeText(context, text, Toast.LENGTH_LONG).show()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     companion object {
         private const val KEY_SEARCHING_WORD = "word"
 
