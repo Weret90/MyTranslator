@@ -52,9 +52,8 @@ dependencies {
     androidTestImplementation(Dependencies.TEST_EXT_J_UNIT_DEP)
     androidTestImplementation(Dependencies.ESPRESSO_CORE_DEP)
 
-    //retrofit
-    implementation(Dependencies.RETROFIT_DEP)
-    implementation(Dependencies.RETROFIT_CONVERTER_GSON_DEP)
+    implementation(project(":data"))
+    implementation(project(":domain"))
 
     //picasso
     implementation(Dependencies.PICASSO_DEP)
@@ -65,9 +64,4 @@ dependencies {
 
     //coroutines
     implementation(Dependencies.LIFECYCLE_VIEWMODEL_KTX_DEP)
-
-    //Room
-    implementation(Dependencies.ROOM_RUNTIME_DEP)
-    kapt(Dependencies.ROOM_COMPILER_DEP)
-    implementation(Dependencies.ROOM_KTX_DEP)
 }
