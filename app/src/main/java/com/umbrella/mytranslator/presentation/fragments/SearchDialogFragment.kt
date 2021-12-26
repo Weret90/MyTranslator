@@ -2,11 +2,13 @@ package com.umbrella.mytranslator.presentation.fragments
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.umbrella.mytranslator.R
 import com.umbrella.mytranslator.databinding.FragmentSearchDialogBinding
 import com.umbrella.mytranslator.presentation.viewmodels.SearchDialogViewModel
+import com.umbrella.mytranslator.utils.ViewById
 import org.koin.core.component.KoinScopeComponent
 import org.koin.core.component.createScope
 import org.koin.core.component.inject
@@ -38,7 +40,9 @@ class SearchDialogFragment : Fragment(), KoinScopeComponent {
 
         initViewModelObservers()
 
-        binding.buttonSearch.setOnClickListener {
+        val buttonSearch by ViewById<Button>(view, R.id.button_search)
+
+        buttonSearch.setOnClickListener {
             val word = binding.fieldForWord.text.toString()
             viewModel.parseWord(word)
         }
