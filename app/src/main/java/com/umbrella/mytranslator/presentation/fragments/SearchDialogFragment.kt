@@ -2,19 +2,25 @@ package com.umbrella.mytranslator.presentation.fragments
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.umbrella.mytranslator.R
 import com.umbrella.mytranslator.databinding.FragmentSearchDialogBinding
 import com.umbrella.mytranslator.presentation.viewmodels.SearchDialogViewModel
+import com.umbrella.mytranslator.utils.ViewById
+import org.koin.core.component.KoinScopeComponent
+import org.koin.core.component.createScope
+import org.koin.core.component.inject
+import org.koin.core.scope.Scope
 
-class SearchDialogFragment : Fragment() {
+class SearchDialogFragment : Fragment(), KoinScopeComponent {
     private var _binding: FragmentSearchDialogBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: SearchDialogViewModel by lazy {
-        ViewModelProvider(this)[SearchDialogViewModel::class.java]
+    override val scope: Scope by lazy {
+        createScope(this)
     }
+    private val viewModel: SearchDialogViewModel by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +40,9 @@ class SearchDialogFragment : Fragment() {
 
         initViewModelObservers()
 
-        binding.buttonSearch.setOnClickListener {
+        val buttonSearch by ViewById<Button>(view, R.id.button_search)
+
+        buttonSearch.setOnClickListener {
             val word = binding.fieldForWord.text.toString()
             viewModel.parseWord(word)
         }
@@ -79,5 +87,10 @@ class SearchDialogFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        scope.close()
     }
 }
