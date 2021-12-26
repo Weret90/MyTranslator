@@ -13,7 +13,7 @@ import com.umbrella.mytranslator.domain.repository.WordsRepository
 
 class WordsRepositoryImpl(
     private val api: RetrofitService,
-    private val dao: WordsDao,
+    private val dao: WordsDao
 ) : WordsRepository {
 
     override suspend fun getWordsWithMeaningsByWord(word: String): List<Word> {

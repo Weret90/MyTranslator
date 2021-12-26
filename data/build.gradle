@@ -53,8 +53,4 @@ dependencies {
     implementation(Dependencies.ROOM_RUNTIME_DEP)
     kapt(Dependencies.ROOM_COMPILER_DEP)
     implementation(Dependencies.ROOM_KTX_DEP)
-
-    //koin
-    implementation(Dependencies.KOIN_CORE_DEP)
-    implementation(Dependencies.KOIN_ANDROID_DEP)
 }

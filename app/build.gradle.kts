@@ -64,4 +64,13 @@ dependencies {
 
     //coroutines
     implementation(Dependencies.LIFECYCLE_VIEWMODEL_KTX_DEP)
+
+    //retrofit
+    implementation(Dependencies.RETROFIT_DEP)
+    implementation(Dependencies.RETROFIT_CONVERTER_GSON_DEP)
+
+    //Room
+    implementation(Dependencies.ROOM_RUNTIME_DEP)
+    kapt(Dependencies.ROOM_COMPILER_DEP)
+    implementation(Dependencies.ROOM_KTX_DEP)
 }

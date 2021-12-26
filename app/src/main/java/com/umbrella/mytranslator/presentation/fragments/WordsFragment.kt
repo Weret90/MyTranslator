@@ -10,16 +10,21 @@ import com.umbrella.mytranslator.R
 import com.umbrella.mytranslator.databinding.FragmentWordsBinding
 import com.umbrella.mytranslator.presentation.adapters.WordsAdapter
 import com.umbrella.mytranslator.presentation.viewmodels.WordsFragmentViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.component.KoinScopeComponent
+import org.koin.core.component.createScope
+import org.koin.core.component.inject
+import org.koin.core.scope.Scope
 
-class WordsFragment : Fragment() {
+class WordsFragment : Fragment(), KoinScopeComponent {
     private var _binding: FragmentWordsBinding? = null
     private val binding get() = _binding!!
     private val adapter: WordsAdapter by lazy {
         WordsAdapter()
     }
-
-    private val viewModel by viewModel<WordsFragmentViewModel>()
+    override val scope: Scope by lazy {
+        createScope(this)
+    }
+    private val viewModel: WordsFragmentViewModel by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -78,6 +83,11 @@ class WordsFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        scope.close()
     }
 
     companion object {

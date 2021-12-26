@@ -11,13 +11,18 @@ import com.umbrella.mytranslator.R
 import com.umbrella.mytranslator.databinding.FragmentWordFullMeaningBinding
 import com.umbrella.mytranslator.domain.entity.DetailMeaning
 import com.umbrella.mytranslator.presentation.viewmodels.WordFullMeaningViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.component.KoinScopeComponent
+import org.koin.core.component.createScope
+import org.koin.core.component.inject
+import org.koin.core.scope.Scope
 
-class WordFullMeaningFragment : Fragment() {
+class WordFullMeaningFragment : Fragment(), KoinScopeComponent {
     private var _binding: FragmentWordFullMeaningBinding? = null
     private val binding get() = _binding!!
-
-    private val viewModel by viewModel<WordFullMeaningViewModel>()
+    override val scope: Scope by lazy {
+        createScope(this)
+    }
+    private val viewModel: WordFullMeaningViewModel by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -84,6 +89,11 @@ class WordFullMeaningFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        scope.close()
     }
 
     companion object {

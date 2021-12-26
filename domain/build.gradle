@@ -41,8 +41,4 @@ dependencies {
     testImplementation(Dependencies.J_UNIT_DEP)
     androidTestImplementation(Dependencies.TEST_EXT_J_UNIT_DEP)
     androidTestImplementation(Dependencies.ESPRESSO_CORE_DEP)
-
-    //koin
-    implementation(Dependencies.KOIN_CORE_DEP)
-    implementation(Dependencies.KOIN_ANDROID_DEP)
 }

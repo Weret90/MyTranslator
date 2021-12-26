@@ -7,14 +7,19 @@ import com.umbrella.mytranslator.R
 import com.umbrella.mytranslator.databinding.FragmentHistoryBinding
 import com.umbrella.mytranslator.presentation.adapters.HistoryAdapter
 import com.umbrella.mytranslator.presentation.viewmodels.HistoryViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.component.KoinScopeComponent
+import org.koin.core.component.createScope
+import org.koin.core.component.inject
+import org.koin.core.scope.Scope
 
-class HistoryFragment : Fragment() {
+class HistoryFragment : Fragment(), KoinScopeComponent {
 
     private var _binding: FragmentHistoryBinding? = null
     private val binding get() = _binding!!
-
-    private val viewModel: HistoryViewModel by viewModel()
+    override val scope: Scope by lazy {
+        createScope(this)
+    }
+    private val viewModel: HistoryViewModel by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +63,11 @@ class HistoryFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        scope.close()
     }
 
     companion object {

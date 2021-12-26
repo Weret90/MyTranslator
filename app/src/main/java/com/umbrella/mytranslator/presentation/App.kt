@@ -14,7 +14,6 @@ class App : Application() {
             modules(
                 repositoryModule,
                 retrofitModule,
-                useCasesModule,
                 viewModelsModule,
                 roomModule
             )
