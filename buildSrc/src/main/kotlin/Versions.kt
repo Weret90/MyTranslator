@@ -12,6 +12,7 @@ object Versions {
     const val KOIN_VERSION = "3.1.3"
     const val LIFECYCLE_VIEWMODEL_KTX_VERSION = "2.4.0"
     const val ROOM_VERSION = "2.4.0"
+    const val SPLASH_SCREEN_VERSION = "1.0.0-alpha02"
 }
 
 object Dependencies {
@@ -47,4 +48,7 @@ object Dependencies {
     const val ROOM_RUNTIME_DEP = "androidx.room:room-runtime:${Versions.ROOM_VERSION}"
     const val ROOM_COMPILER_DEP = "androidx.room:room-compiler:${Versions.ROOM_VERSION}"
     const val ROOM_KTX_DEP = "androidx.room:room-ktx:${Versions.ROOM_VERSION}"
+
+    //splash screen
+    const val SPLASH_SCREEN_DEP = "androidx.core:core-splashscreen:${Versions.SPLASH_SCREEN_VERSION}"
 }

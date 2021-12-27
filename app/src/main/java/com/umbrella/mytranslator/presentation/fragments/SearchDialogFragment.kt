@@ -90,7 +90,7 @@ class SearchDialogFragment : Fragment(), KoinScopeComponent {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         scope.close()
+        super.onDestroy()
     }
 }
