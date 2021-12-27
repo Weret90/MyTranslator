@@ -42,7 +42,7 @@ val viewModelsModule = module {
             GetAllWordsFromDbUseCase(repository = get())
         }
         viewModel {
-            HistoryViewModel(get(), get())
+            HistoryViewModel(deleteAllWordsInDbUseCase = get(), getAllWordsFromDbUseCase = get())
         }
     }
 

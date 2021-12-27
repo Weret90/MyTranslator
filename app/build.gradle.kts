@@ -73,4 +73,7 @@ dependencies {
     implementation(Dependencies.ROOM_RUNTIME_DEP)
     kapt(Dependencies.ROOM_COMPILER_DEP)
     implementation(Dependencies.ROOM_KTX_DEP)
+
+    //splash screen
+    implementation(Dependencies.SPLASH_SCREEN_DEP)
 }

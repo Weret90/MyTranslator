@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 private const val BASE_URL = "https://dictionary.skyeng.ru/api/public/v1/"
 
 val retrofitModule = module {
-    single<RetrofitService> {
+    single {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())

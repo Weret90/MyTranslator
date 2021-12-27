@@ -1,0 +1,7 @@
+<resources>
+    <style name="Theme.NewSplash" parent="Theme.SplashScreen">
+        <item name="postSplashScreenTheme">@style/Theme.MyTranslator</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_baseline_translate_24</item>
+        <item name="windowSplashScreenBackground">@android:color/holo_orange_light</item>
+    </style>
+</resources>

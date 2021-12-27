@@ -92,8 +92,8 @@ class WordFullMeaningFragment : Fragment(), KoinScopeComponent {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         scope.close()
+        super.onDestroy()
     }
 
     companion object {
